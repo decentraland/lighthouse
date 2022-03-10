@@ -8,7 +8,20 @@
     "cleanup": "shx rm -rf dist node_modules",
     "build": "tsc -b",
     "start": "node ./dist/src/server.js",
-    "test": "jest --runInBand --forceExit --coverage"
+    "test": "jest --runInBand --forceExit --coverage",
+    "lint:fix": "eslint '**/*.{js,ts}' --fix",
+    "lint:check": "eslint '**/*.{js,ts}'"
+  },
+  "lint-staged": {
+    "**/*.{js,ts,tsx}": [
+      "eslint --fix"
+    ]
+  },
+  "prettier": {
+    "printWidth": 120,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "none"
   },
   "dependencies": {
     "@dcl/archipelago": "1.0.0",
@@ -29,11 +42,14 @@
   },
   "devDependencies": {
     "@types/jest": "27.4.0",
+    "@typescript-eslint/eslint-plugin": "4.33.0",
+    "@typescript-eslint/parser": "4.33.0",
     "eslint": "7.32.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-prettier": "4.0.0",
     "jest": "27.4.7",
     "mock-socket": "^8.0.5",
+    "prettier": "2.4.1",
     "ts-jest": "27.1.2",
     "typescript": "^4.4.3"
   }
