@@ -1,9 +1,28 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "dist",
-    "rootDir": ".",
-    "tsBuildInfoFile": "./dist/.tsbuildinfo"
+    "module": "commonjs",
+    "target": "es2020",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "stripInternal": true,
+    "strictNullChecks": true,
+    "pretty": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
+    "incremental": true,
+    "emitDecoratorMetadata": true,
+    "noUnusedLocals": true,
+    "jsx": "react",
+    "skipLibCheck": true,
+    "outDir": "./dist",
+    "lib": [
+      "es2020",
+      "dom",
+      "esnext.asynciterable",
+      "esnext"
+    ]
   },
   "include": ["src", "test"]
 }
