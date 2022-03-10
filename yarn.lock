@@ -322,10 +322,10 @@
   dependencies:
     uuid "^8.3.2"
 
-"@dcl/catalyst-api-specs@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@dcl/catalyst-api-specs/-/catalyst-api-specs-1.0.1.tgz#d1bc181310d74285ad187ff3fbdae306dfd1a371"
-  integrity sha512-8CDVUWo57aKg+R1b9Mz8daWTTa0w8gjnvwmVBOxyx1Moqf9acCM14MlgqwdxW+u11NkNjl+O/MC6XGD5r3bSRw==
+"@dcl/catalyst-api-specs@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@dcl/catalyst-api-specs/-/catalyst-api-specs-1.1.0.tgz#71c7d7a125011f97f8bd34b49a30c139909702da"
+  integrity sha512-jelhOl/BS/W6cmrymlLN1riJpQghipXcXwV9dSv3mrEEsafsvqwuOpFHt0PZd6nKBYSq0phPjg3H1SMliJagPg==
   dependencies:
     yaml "1.10.2"
 
