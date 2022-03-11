@@ -1,0 +1,191 @@
+version: 2.1
+
+references:
+  .workspace_root: &workspace_root /tmp/repo
+
+  .attach_root: &attach_root
+    attach_workspace:
+      at: *workspace_root
+
+  .image_client: &image_client
+    image: cimg/node:16.14-browsers
+
+  .working_directory_root: &working_directory_root
+    working_directory: *workspace_root
+
+  .base_env: &base_env
+    docker:
+      - <<: *image_client
+    working_directory: *workspace_root
+
+  .testing_branches: &testing_branches
+    filters:
+      branches:
+        ignore: main
+      tags:
+        ignore: /(.*)/
+
+  .all_branches_and_tags: &all_branches_and_tags
+    filters:
+      branches:
+        only: /(.*)/
+      tags:
+        only: /^\d+\.\d+\.\d(.*)/ # semver
+
+  .main_and_tags: &main_and_tags
+    filters:
+      branches:
+        only: main
+      tags:
+        only: /^\d+\.\d+\.\d(.*)/ # semver
+
+jobs:
+  checkout:
+    <<: *base_env
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+
+      - run:
+          name: Install Dependencies
+          command: yarn --frozen-lockfile --cache-folder ~/.cache/yarn
+
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+
+      # persist to workspace to use in downstream jobs
+      - persist_to_workspace:
+          root: *workspace_root
+          paths:
+            - .
+
+  linter:
+    <<: *base_env
+    steps:
+      - <<: *attach_root
+      - run: yarn lint:check
+
+  build:
+    <<: *base_env
+    steps:
+      - <<: *attach_root
+      - run:
+          name: Build
+          command: yarn build
+      - run:
+          name: Run tests
+          command: yarn test
+          environment:
+            CI: 'true'
+
+  publish-docker:
+    <<: *base_env
+    docker:
+      - image: cimg/node:16.14-browsers
+        environment: &ENVIRONMENT
+          DOCKER_IMAGE_NAME: decentraland/lighthouse
+    steps:
+      - <<: *attach_root
+      - setup_remote_docker: { docker_layer_caching: true, version: 20.10.2 }
+      - run:
+          name: Build Docker image
+          command: |
+            if echo "${CIRCLE_TAG}" | grep "^[0-9]\+\.[0-9]\+\.[0-9]\+$"; then
+              DOCKER_BUILDKIT=1 docker build -t ${DOCKER_IMAGE_NAME}:${CIRCLE_SHA1} --build-arg COMMIT_HASH=${CIRCLE_SHA1} --build-arg CATALYST_VERSION=${CIRCLE_TAG} .
+            else
+              DOCKER_BUILDKIT=1 docker build -t ${DOCKER_IMAGE_NAME}:${CIRCLE_SHA1} --build-arg COMMIT_HASH=${CIRCLE_SHA1} .
+            fi
+      - run:
+          name: Log into DockerHub
+          command: docker login -u "${DOCKER_USER}" -p "${DOCKER_PASS}"
+      - run:
+          name: Push image
+          command: |
+            docker push "${DOCKER_IMAGE_NAME}:${CIRCLE_SHA1}"
+            if echo "${CIRCLE_TAG}" | grep "^[0-9]\+\.[0-9]\+\.[0-9]\+$"; then
+              docker tag "${DOCKER_IMAGE_NAME}:${CIRCLE_SHA1}" "${DOCKER_IMAGE_NAME}:${CIRCLE_TAG}"
+              docker push "${DOCKER_IMAGE_NAME}:${CIRCLE_TAG}"
+              docker tag "${DOCKER_IMAGE_NAME}:${CIRCLE_SHA1}" "${DOCKER_IMAGE_NAME}:latest"
+              docker push "${DOCKER_IMAGE_NAME}:latest"
+              # TODO: publish SNS message for stable channel
+            fi
+
+            if [ "${CIRCLE_BRANCH}" = "main" ]; then
+              docker tag "${DOCKER_IMAGE_NAME}:${CIRCLE_SHA1}" "${DOCKER_IMAGE_NAME}:next"
+              docker push "${DOCKER_IMAGE_NAME}:next"
+
+              # TODO: publish SNS message for latest channel
+            fi
+
+  publish-docker-without-tag:
+    <<: *base_env
+    docker:
+      - image: cimg/node:16.14-browsers
+        environment: &ENVIRONMENT
+          DOCKER_IMAGE_NAME: decentraland/katalyst
+    steps:
+      - <<: *attach_root
+      - setup_remote_docker: { docker_layer_caching: true, version: 20.10.2 }
+      - run:
+          name: Build Docker image
+          command: |
+            if echo "${CIRCLE_TAG}" | grep "^[0-9]\+\.[0-9]\+\.[0-9]\+$"; then
+              DOCKER_BUILDKIT=1 docker build -t ${DOCKER_IMAGE_NAME}:${CIRCLE_SHA1} --build-arg COMMIT_HASH=${CIRCLE_SHA1} --build-arg CATALYST_VERSION=${CIRCLE_TAG} .
+            else
+              DOCKER_BUILDKIT=1 docker build -t ${DOCKER_IMAGE_NAME}:${CIRCLE_SHA1} --build-arg COMMIT_HASH=${CIRCLE_SHA1} .
+            fi
+      - run:
+          name: Log into DockerHub
+          command: docker login -u "${DOCKER_USER}" -p "${DOCKER_PASS}"
+      - run:
+          name: Push image (without tag)
+          command: |
+            docker push "${DOCKER_IMAGE_NAME}:${CIRCLE_SHA1}"
+
+workflows:
+  version: 2
+
+  build-deploy:
+    jobs:
+      # checkout code
+      - checkout:
+          <<: *all_branches_and_tags
+
+      - linter:
+          <<: *all_branches_and_tags
+          requires:
+            - checkout
+
+      # build packages
+      - build:
+          <<: *all_branches_and_tags
+          requires:
+            - checkout
+
+      # publish docker image in "main" and semver tags
+      # main publishes to @next
+      # semver tags publish to @latest
+      - publish-docker:
+          <<: *main_and_tags
+          requires:
+            - build
+
+      # NOT (main | semver) enables manual approval to release untagged docker images
+      - accept-publish-docker-for-testing:
+          <<: *testing_branches
+          type: approval
+          requires:
+            - build
+      - publish-docker-without-tag:
+          <<: *testing_branches
+          requires:
+            - accept-publish-docker-for-testing
