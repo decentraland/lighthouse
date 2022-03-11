@@ -2,7 +2,6 @@ import { Config, ConfigService, EnvironmentWrapper, LighthouseConfig } from '../
 import { ISimpleStorage } from '../src/config/simpleStorage'
 
 describe('Config service', () => {
-
   beforeAll(() => jest.useFakeTimers())
 
   afterAll(() => jest.useRealTimers())

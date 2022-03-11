@@ -26,7 +26,7 @@ export class PeersService implements IPeersService {
     private realmProvider: () => IRealm,
     private services: Pick<AppServices, 'configService' | 'archipelagoService'>,
     private distanceFunction: (p1: Position3D, p2: Position3D) => number = discretizedPositionDistanceXZ()
-  ) { }
+  ) {}
 
   sendMessageToPeer(peerId: string, message: Omit<PeerOutgoingMessage, 'src' | 'dst'>) {
     const client = this.peerRealm.getClientById(peerId)

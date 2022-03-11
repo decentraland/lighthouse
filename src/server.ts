@@ -1,4 +1,9 @@
-import { authHeaders, DAOContractClient, DECENTRALAND_ADDRESS, initializeMetricsServer } from '@dcl/catalyst-node-commons'
+import {
+  authHeaders,
+  DAOContractClient,
+  DECENTRALAND_ADDRESS,
+  initializeMetricsServer
+} from '@dcl/catalyst-node-commons'
 import { DAOContract } from '@dcl/catalyst-contracts'
 import { COMMS_API } from '@dcl/catalyst-api-specs'
 import cors from 'cors'

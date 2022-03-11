@@ -4,7 +4,6 @@ import { IdService } from '../src/peers/idService'
 require('isomorphic-fetch')
 
 describe('id service generation', function () {
-
   let idService: IdService
 
   beforeEach(() => {
@@ -36,7 +35,7 @@ describe('id service generation', function () {
     expect(idService.nextId()).toBe('00')
   })
 
-    it('can use all ids in urls', (done) => {
+  it('can use all ids in urls', (done) => {
     const app = express()
 
     const requestedIds: string[] = []

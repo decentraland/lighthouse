@@ -17,7 +17,7 @@ const daoClient: DAOClient = {
 
 let existingName = 'fenrir'
 
-describe('picking a name', function() {
+describe('picking a name', function () {
   beforeAll(() => {
     global.fetch = (input, init) => {
       return Promise.resolve(new Response(`{"name": "${existingName}"}`))
