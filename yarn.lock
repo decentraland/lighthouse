@@ -329,21 +329,21 @@
   dependencies:
     yaml "1.10.2"
 
-"@dcl/catalyst-contracts@^0.1.0-20220308184742.commit-9403cb1":
-  version "0.1.0-20220308184742.commit-9403cb1"
-  resolved "https://registry.yarnpkg.com/@dcl/catalyst-contracts/-/catalyst-contracts-0.1.0-20220308184742.commit-9403cb1.tgz#945cf47acbea1af453e3697a9f8574080d023622"
-  integrity sha512-qNjnCuZSCD9sAC6JPMsofEQuult4Ge/2RXQ1MOXcYPtz/SyJoAsROiorpIxLDWZ2yMf+75+gi0sJLOeA3MxLFQ==
+"@dcl/catalyst-contracts@1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@dcl/catalyst-contracts/-/catalyst-contracts-1.0.2.tgz#c381b10fe7640f9abba33e8d0e87b05ddaa12ced"
+  integrity sha512-70iqpqsM0DYAMBxRVhRn4HIMm5NDql3nJL5HVvSxB8Kg2utuODCsRUYL8Ngk7BWVh3UM33eiSm75OLwtjTnwBA==
   dependencies:
     bn.js "5.2.0"
     dcl-crypto "2.3.0"
     web3x "4.0.6"
 
-"@dcl/catalyst-node-commons@^0.1.0-20220310125449.commit-555f8e5":
-  version "0.1.0-20220310125449.commit-555f8e5"
-  resolved "https://registry.yarnpkg.com/@dcl/catalyst-node-commons/-/catalyst-node-commons-0.1.0-20220310125449.commit-555f8e5.tgz#f74da6d37a90f04413fb18e11265b92fbaa2ca90"
-  integrity sha512-1JTSKNvMms09nHv9TZ/bNVuSnAZX+IKmCHnEvD9xbXqpM6lPo2PDrLpz2PVt1hyyvul1wpjW3oO6kqu0nfQXyw==
+"@dcl/catalyst-node-commons@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@dcl/catalyst-node-commons/-/catalyst-node-commons-1.0.1.tgz#925399ef8ba7d128964a9a44ef3577f391ed67f9"
+  integrity sha512-QC7mmNn0tH+909R1o7BsHViiOtzxJsvvPW5J0a92rKNg+Q5K6KSMLNhQLQVRot/kC3HuUQ0FiZI7G6BZAsP/Ng==
   dependencies:
-    "@dcl/catalyst-contracts" "^0.1.0-20220308184742.commit-9403cb1"
+    "@dcl/catalyst-contracts" "1.0.2"
     "@typescript-eslint/parser" "4.33.0"
     "@well-known-components/http-server" "^1.1.1"
     "@well-known-components/interfaces" "^1.1.0"
