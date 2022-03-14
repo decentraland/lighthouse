@@ -92,7 +92,7 @@ jobs:
     docker:
       - image: cimg/node:16.14-browsers
         environment: &ENVIRONMENT
-          DOCKER_IMAGE_NAME: decentraland/lighthouse
+          DOCKER_IMAGE_NAME: decentraland/katalyst-lighthouse
     steps:
       - <<: *attach_root
       - setup_remote_docker: { docker_layer_caching: true, version: 20.10.2 }
