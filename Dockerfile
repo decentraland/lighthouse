@@ -34,4 +34,15 @@ ENV COMMIT_HASH=${COMMIT_HASH:-local}
 
 EXPOSE 9000
 
-ENTRYPOINT [ "node", "--max-old-space-size=8192", "server.js" ]
+# Please _DO NOT_ use a custom ENTRYPOINT because it may prevent signals
+# (i.e. SIGTERM) to reach the service
+# Read more here: https://aws.amazon.com/blogs/containers/graceful-shutdowns-with-ecs/
+#            and: https://www.ctl.io/developers/blog/post/gracefully-stopping-docker-containers/
+
+# We use Tini to handle signals and PID1 (https://github.com/krallin/tini, read why here https://github.com/krallin/tini/issues/8)
+RUN apk add --no-cache tini
+
+ENTRYPOINT ["/sbin/tini", "--"]
+
+# Run the program under Tini
+CMD [ "/usr/local/bin/node", "--max-old-space-size=8192", "server.js" ]
