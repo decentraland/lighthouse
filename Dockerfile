@@ -25,8 +25,8 @@ COPY --from=dependencies /app/node_modules ./node_modules/
 COPY --from=comms-builder /app/dist/src .
 
 # https://docs.docker.com/engine/reference/builder/#arg
-ARG LIGHTHOUSE_VERSION=4.0.0-ci
-ENV LIGHTHOUSE_VERSION=${LIGHTHOUSE_VERSION:-4.0.0}
+ARG CATALYST_VERSION=4.0.0-ci
+ENV CATALYST_VERSION=${CATALYST_VERSION:-4.0.0}
 
 # https://docs.docker.com/engine/reference/builder/#arg
 ARG COMMIT_HASH=local
