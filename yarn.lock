@@ -361,10 +361,10 @@
     ipfs-unixfs-importer "^7.0.3"
     multiformats "^9.6.3"
 
-"@dcl/schemas@3.8.0":
-  version "3.8.0"
-  resolved "https://registry.yarnpkg.com/@dcl/schemas/-/schemas-3.8.0.tgz#aa52d3565308997cfa17c4af5f1314db0f4c6f53"
-  integrity sha512-oUq4JDzJmcLTmhFccby6UrAfDXJywOCWI4w3UenuQDE6TxfoR6c0cthGo/omFQkGRUkkKg8MM7Q3Q5ExxdCLRA==
+"@dcl/schemas@4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@dcl/schemas/-/schemas-4.2.0.tgz#3bfb90bbd46a9a469c45ab30d4c77e0c5d13f48c"
+  integrity sha512-+YwEYRkUPtDuGhUFKSEKZxMe+ETqdIn0TBMyY8cJt+FijalXzOEFAPVj17TTCxz4V8SOW5qj2022N7FYzM/Qew==
   dependencies:
     ajv "^7.1.0"
 
@@ -2488,13 +2488,13 @@ data-urls@^2.0.0:
     whatwg-mimetype "^2.3.0"
     whatwg-url "^8.0.0"
 
-dcl-catalyst-commons@^8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/dcl-catalyst-commons/-/dcl-catalyst-commons-8.0.0.tgz#5ca42550d54864cee1025a14349cd1c07d444720"
-  integrity sha512-thjiPLIwj+5NyGVuuKxwN76ZUCAfpDTtpbTHF0Cofa8s4yQBWXQnw7Ccba51GpvD4tl+Erci9ASDErmw9Nf+Uw==
+dcl-catalyst-commons@^8.2.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/dcl-catalyst-commons/-/dcl-catalyst-commons-8.2.0.tgz#0bac92646516b52c0a49007acf2c8d43ce808ddc"
+  integrity sha512-ZHk+ghQxOnexuE2tWisMv6fQv/w2vYVFxQEcePMkYhxgtSoXuWDXQtp9vrkdvR8WZ+TlJTZjnD6avF2Yq5nPJg==
   dependencies:
     "@dcl/hashing" "^1.0.0"
-    "@dcl/schemas" "3.8.0"
+    "@dcl/schemas" "4.2.0"
     abort-controller "^3.0.0"
     cids "^1.1.9"
     cookie "^0.4.1"
