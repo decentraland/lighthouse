@@ -123,7 +123,8 @@ export function configureRoutes(
 
   const getParcels = async (_: Request, res: Response) => {
     const parcelsInfo = services.peersService().getParcels()
-    res.send({ parcels: parcelsInfo})
+
+    res.send({ parcels: parcelsInfo })
   }
 
   app.get('/status', asyncHandler(getStatus))
