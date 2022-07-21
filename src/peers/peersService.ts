@@ -204,7 +204,7 @@ export class PeersService implements IPeersService {
     for (const id of this.peerRealm.getClientsIds()) {
       const parcel = this.peers[id]?.parcel
       if (parcel) {
-        let count = countPerParcel.get(parcel) || 0
+        const count = countPerParcel.get(parcel) || 0
         countPerParcel.set(parcel, count + 1)
       }
     }
