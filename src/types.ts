@@ -4,6 +4,16 @@ import { ArchipelagoService } from './peers/archipelagoService'
 import { IdService } from './peers/idService'
 import { PeersService } from './peers/peersService'
 
+export type Parcel = {
+  x: number
+  y: number
+}
+
+export type ParcelInfo = {
+  peersCount: number
+  parcel: Parcel
+}
+
 export type PeerInfo = {
   id: string
   address?: string

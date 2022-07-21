@@ -121,6 +121,11 @@ export function configureRoutes(
     }
   }
 
+  const getParcels = async (_: Request, res: Response) => {
+    const parcelsInfo = services.peersService().getTopology()
+    res.send(parcelsInfo)
+  }
+
   app.get('/status', asyncHandler(getStatus))
 
   app.put('/config', [
@@ -135,6 +140,7 @@ export function configureRoutes(
 
   app.get('/config', asyncHandler(getConfig))
   app.get('/islands', asyncHandler(getIslands))
+  app.get('/parcels', asyncHandler(getParcels))
   app.get('/islands/:islandId', asyncHandler(getIsland))
   app.get('/peers', asyncHandler(getPeers))
   app.get('/peers/topology', asyncHandler(getTopology))

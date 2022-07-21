@@ -3,7 +3,7 @@ import { discretizedPositionDistanceXZ, PeerConnectionHint, Position3D } from '@
 import { Island } from '@dcl/archipelago'
 import { LighthouseConfig } from '../config/configService'
 import { IRealm } from '../peerjs-server'
-import { AppServices, PeerInfo, PeerRequest, PeerTopologyInfo } from '../types'
+import { AppServices, PeerInfo, PeerRequest, PeerTopologyInfo, ParcelInfo } from '../types'
 import { PeerOutgoingMessage, PeerOutgoingMessageType } from './protocol/messageTypes'
 
 require('isomorphic-fetch')
@@ -193,6 +193,25 @@ export class PeersService implements IPeersService {
         result.push(parcel)
       }
     }
+
+    return result
+  }
+
+  getParcels(): ParcelInfo[] {
+    const result: ParcelInfo[] = []
+
+    const countPerParcel = new Map<[number, number], number>()
+    for (const id of this.peerRealm.getClientsIds()) {
+      const parcel = this.peers[id]?.parcel
+      if (parcel) {
+        const count = countPerParcel.get(parcel) || 0
+        countPerParcel.set(parcel, count + 1)
+      }
+    }
+
+    countPerParcel.forEach((peersCount, [x, y]) => {
+      result.push({ peersCount, parcel: { x, y } })
+    })
 
     return result
   }
