@@ -198,22 +198,20 @@ export class PeersService implements IPeersService {
   }
 
   getParcels(): ParcelInfo[] {
-    const result: ParcelInfo[] = []
+    const countPerParcel = new Map<string, ParcelInfo>()
 
-    const countPerParcel = new Map<[number, number], number>()
     for (const id of this.peerRealm.getClientsIds()) {
       const parcel = this.peers[id]?.parcel
       if (parcel) {
-        const count = countPerParcel.get(parcel) || 0
-        countPerParcel.set(parcel, count + 1)
+        const [parcelX, parcelY] = parcel
+        const key = `${parcelX}:${parcelY}`
+        const info = countPerParcel.get(key) || { peersCount: 0, parcel: { x: parcelX, y: parcelY } }
+        info.peersCount += 1
+        countPerParcel.set(key, info)
       }
     }
 
-    countPerParcel.forEach((peersCount, [x, y]) => {
-      result.push({ peersCount, parcel: { x, y } })
-    })
-
-    return result
+    return Array.from(countPerParcel.values())
   }
 
   getConnectedPeersInfo(): { ok: true; peers: PeerInfo[] } | { ok: false; message: string } {
