@@ -27,7 +27,7 @@ import { configureRoutes } from './routes'
 import { AppServices } from './types'
 
 const LIGHTHOUSE_PROTOCOL_VERSION = '1.0.0'
-const DEFAULT_ETH_NETWORK = 'ropsten'
+const DEFAULT_ETH_NETWORK = 'goerli'
 
 const CURRENT_ETH_NETWORK = process.env.ETH_NETWORK ?? DEFAULT_ETH_NETWORK
 
