@@ -28,7 +28,7 @@
     "@dcl/catalyst-api-specs": "1.2.2",
     "@dcl/catalyst-node-commons": "^1.0.4",
     "cors": "2.8.5",
-    "dcl-catalyst-commons": "^9.0.6",
+    "dcl-catalyst-commons": "^9.0.8",
     "dcl-crypto": "2.3.0",
     "express": "4.17.1",
     "express-openapi-validator": "4.13.1",
