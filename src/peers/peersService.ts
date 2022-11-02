@@ -144,12 +144,16 @@ export class PeersService implements IPeersService {
   ) {
     const info = this.getPeerInfo(peerId)
 
-    if (!info.position) {
+    if (!info.position && type === PeerOutgoingMessageType.PEER_JOINED_ISLAND) {
       console.warn(
-        `Tried to send updates of a peer ${peerId} for which we don't have a position. This shouldn't happen.`
+        `Tried to send peer join island message of a peer ${peerId} for which we don't have a position. This shouldn't happen.`
       )
       return
     }
+
+    // NOTE: if a peer is disconnected, it will be cleared from the this.peers cache, so there will be no position,
+    // we send a default one, just because the protobuffer requires so.
+    const position = info.position || [0, 0, 0]
 
     for (const peer of island.peers) {
       if (peer.id !== info.id) {
@@ -157,7 +161,7 @@ export class PeersService implements IPeersService {
           type,
           payload: {
             islandId: island.id,
-            peer: { id: info.id, position: info.position }
+            peer: { id: info.id, position }
           }
         })
       }
