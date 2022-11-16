@@ -92,7 +92,7 @@ jobs:
     docker:
       - image: cimg/node:16.14-browsers
         environment: &ENVIRONMENT
-          DOCKER_IMAGE_NAME: decentraland/catalyst-lighthouse
+          DOCKER_IMAGE_NAME: quay.io/decentraland/catalyst-lighthouse
     steps:
       - <<: *attach_root
       - setup_remote_docker: { docker_layer_caching: true, version: 20.10.2 }
@@ -106,7 +106,7 @@ jobs:
             fi
       - run:
           name: Log into DockerHub
-          command: docker login -u "${DOCKER_USER}" -p "${DOCKER_PASS}"
+          command: docker login -u "${QUAY_USERNAME}" -p "${QUAY_TOKEN}" quay.io
       - run:
           name: Push image
           command: |
@@ -131,7 +131,7 @@ jobs:
     docker:
       - image: cimg/node:16.14-browsers
         environment: &ENVIRONMENT
-          DOCKER_IMAGE_NAME: decentraland/catalyst-lighthouse
+          DOCKER_IMAGE_NAME: quay.io/decentraland/catalyst-lighthouse
     steps:
       - <<: *attach_root
       - setup_remote_docker: { docker_layer_caching: true, version: 20.10.2 }
@@ -145,7 +145,7 @@ jobs:
             fi
       - run:
           name: Log into DockerHub
-          command: docker login -u "${DOCKER_USER}" -p "${DOCKER_PASS}"
+          command: docker login -u "${QUAY_USERNAME}" -p "${QUAY_TOKEN}" quay.io
       - run:
           name: Push image (without tag)
           command: |
