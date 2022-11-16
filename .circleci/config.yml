@@ -106,7 +106,7 @@ jobs:
             fi
       - run:
           name: Log into DockerHub
-          command: docker login -u "${DOCKER_USER}" -p "${DOCKER_PASS}"
+          command: docker login -u "${QUAY_USER}" -p "${QUAY_PASS}" quay.io
       - run:
           name: Push image
           command: |
